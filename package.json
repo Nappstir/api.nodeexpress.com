@@ -1,0 +1,32 @@
+{
+  "name": "api.nodeexpress.com",
+  "version": "0.0.1",
+  "description": "Basic template for building node/express API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nappstir/api.nodeexpress.com.git"
+  },
+  "keywords": [
+    "Node",
+    "Express",
+    "API",
+    "RESTful",
+    "Backend"
+  ],
+  "author": "Travis Siebenhaar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Nappstir/api.nodeexpress.com/issues"
+  },
+  "homepage": "https://github.com/Nappstir/api.nodeexpress.com#readme",
+  "dependencies": {
+    "express": "^4.15.3"
+  },
+  "devDependencies": {
+    "mocha": "^3.5.0"
+  }
+}
