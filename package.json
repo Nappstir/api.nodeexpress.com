@@ -7,8 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec babel-node ./src/app.js",
     "knex:migrate": "knex migrate:latest",
-    "knex:seed": "knex seed:run",
-    "build": "babel src -d dist"
+    "knex:seed": "knex seed:run"
   },
   "repository": {
     "type": "git",
@@ -31,7 +30,9 @@
   "dependencies": {
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",
+    "compression": "^1.7.0",
     "express": "^4.15.4",
+    "helmet": "^3.8.1",
     "knex": "^0.13.0",
     "mysql2": "^1.4.1"
   },
