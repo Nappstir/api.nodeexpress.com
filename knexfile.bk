@@ -1,0 +1,71 @@
+// Update with your config settings.
+
+module.exports = {
+
+  development: {
+    client: 'mysql2',
+    connection: {
+      database: '',
+      user:     '',
+      password: ''
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    }
+  },
+
+  test: {
+    client: 'mysql2',
+    connection: {
+      database: '',
+      user: '',
+      password: '',
+    },
+    pool: {
+      min: 2,
+      max: 10,
+    },
+    migrations: {
+      tableName: 'knex_migrations',
+    },
+    seeds: {
+      directory: './seeds/test',
+    }
+  },
+
+  staging: {
+    client: 'mysql2',
+    connection: {
+      database: 'my_db',
+      user: 'username',
+      password: 'password',
+    },
+    pool: {
+      min: 2,
+      max: 10,
+    },
+    migrations: {
+      tableName: 'knex_migrations',
+    },
+  },
+
+  production: {
+    client: 'mysql2',
+    connection: {
+      database: 'my_db',
+      user: 'username',
+      password: 'password',
+    },
+    pool: {
+      min: 2,
+      max: 10,
+    },
+    migrations: {
+      tableName: 'knex_migrations',
+    },
+  },
+};

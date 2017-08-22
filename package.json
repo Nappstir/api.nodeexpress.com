@@ -6,6 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec babel-node ./src/app.js",
+    "knex:migrate": "knex migrate:latest",
+    "knex:seed": "knex seed:run",
     "build": "babel src -d dist"
   },
   "repository": {
@@ -29,7 +31,9 @@
   "dependencies": {
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",
-    "express": "^4.15.4"
+    "express": "^4.15.4",
+    "knex": "^0.13.0",
+    "mysql2": "^1.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
