@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
-function verifyToken(req, res, next) {
+const verifyToken = function(req, res, next) {
   let token = req.body.token || req.query.token || req.headers['x-access-token'];
   if (token) {
     jwt.verify(token, config.jwtSecret, function(err, decoded) {
@@ -26,11 +26,6 @@ function verifyToken(req, res, next) {
 }
 
 router.use('/auth', authRoute);
-
-// router.use(function(req, res, next) {
-//   verifyToken(req, res, next);
-// });
-
-router.use('/users', function(req, res, next) {verifyToken(req, res, next)}, userRoute);
+router.use('/users', verifyToken, userRoute);
 
 export default router;
