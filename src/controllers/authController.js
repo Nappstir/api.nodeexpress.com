@@ -1,6 +1,18 @@
 import * as User from '../models/userModels';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import config from '../config';
+import sendMail from 'sendmail';
+
+const sendmail = sendMail({
+  logger: {
+    debug: console.log,
+    info: console.info,
+    warn: console.warn,
+    error: console.error
+  },
+  silent: false,
+});
 
 function generateToken(res, user) {
   const token = jwt.sign({
@@ -17,7 +29,7 @@ function generateToken(res, user) {
 }
 
 export function login(req, res) {
-  User.getUserByEmail(req)
+  User.findOne({email: req.body.email})
     .then(user => {
       generateToken(res, user);
     })
@@ -37,4 +49,32 @@ export function register(req, res) {
     .catch(error => {
       res.json(error);
     });
+}
+
+export function forgotPassword(req, res) {
+  User.findOne({email: req.body.email})
+    .then(user => {
+
+      if (user) {
+        crypto.randomBytes(20, function(err, buffer) {
+          let token = buffer.toString('hex');
+          User.findByIdAndUpdate({id: user.id, body: { reset_password_token: token, reset_password_expires: Date.now() + 86400000 }})
+            .then(user => {
+
+              sendmail({
+                from: 'noreply@yourdomain.com',
+                to: user.email,
+                subject: 'App password reset.',
+                html: 'Heyo',
+              }, function(err, reply) {
+                console.log(err && err.stack);
+              });
+
+            })
+        })
+      } else {
+        res.sendStatus(404).json({error: 'User not found.'});
+      }
+    })
+
 }

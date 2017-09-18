@@ -5,11 +5,11 @@ const saltRounds = 10;
 
 export function getUser(req) {
   const id = req.params.id;
-  return db.select().from('users').where('id', id).first();
+  return db('users').select().where('id', id).first();
 }
 
-export function getUserByEmail(req) {
-  return db.select().from('users').where('email', req.body.email).first();
+export function findOne(req) {
+  return db('users').select().where(req).first();
 }
 
 export function createUser(req) {
@@ -24,4 +24,9 @@ export function createUser(req) {
     password: hashedPassword
   })
     .then((id) => db('users').select().where('id', id).first());
+}
+
+export function findByIdAndUpdate(req) {
+  return db('users').select().where('id', req.id).update(req.body)
+    .then(user => db('users').select().where('id', user).first());
 }

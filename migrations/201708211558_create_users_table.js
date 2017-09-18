@@ -5,6 +5,8 @@ exports.up = function(knex, Promise) {
     table.string('last_name').notNullable();
     table.string('email').notNullable().unique();
     table.string('password').notNullable();
+    table.string('reset_password_token').unique();
+    table.string('reset_password_expires');
     table.timestamps(false, true);
   }).then(() => {
     console.log('Users Table is Created!');
