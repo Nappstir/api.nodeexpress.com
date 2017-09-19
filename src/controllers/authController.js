@@ -1,5 +1,6 @@
 import * as User from '../models/userModels';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt'
 import crypto from 'crypto';
 import config from '../config';
 import sendMail from 'sendmail';
@@ -31,7 +32,14 @@ function generateToken(res, user) {
 export function login(req, res) {
   User.findOne({email: req.body.email})
     .then(user => {
-      generateToken(res, user);
+      if (user && bcrypt.compareSync(req.body.password, user.password)) {
+        generateToken(res, user);
+      } else {
+        res.status(401).json({
+          success: false,
+          message: 'Incorrect username or password.'
+        });
+      }
     })
     .catch(error => {
       res.json(error);
@@ -52,12 +60,13 @@ export function register(req, res) {
 }
 
 export function forgotPassword(req, res) {
-  User.findOne({email: req.body.email})
+  User.findOne({email: 'blah@blah.com'})
     .then(user => {
 
       if (user) {
         crypto.randomBytes(20, function(err, buffer) {
           let token = buffer.toString('hex');
+
           User.findByIdAndUpdate({id: user.id, body: { reset_password_token: token, reset_password_expires: Date.now() + 86400000 }})
             .then(user => {
 
@@ -71,9 +80,12 @@ export function forgotPassword(req, res) {
               });
 
             })
+            .catch(err => {
+              res.status(404).json({error: 'User id not found.'});
+            })
         })
       } else {
-        res.sendStatus(404).json({error: 'User not found.'});
+        res.status(404).json({error: 'User not found.'});
       }
     })
 

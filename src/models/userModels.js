@@ -13,7 +13,6 @@ export function findOne(req) {
 }
 
 export function createUser(req) {
-  console.log('createUser: ', req.body);
   let salt = bcrypt.genSaltSync(saltRounds);
   let hashedPassword = bcrypt.hashSync(req.body.password, salt);
 
