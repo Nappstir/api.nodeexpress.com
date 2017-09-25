@@ -60,7 +60,7 @@ export function register(req, res) {
 }
 
 export function forgotPassword(req, res) {
-  User.findOne({email: 'blah@blah.com'})
+  User.findOne({email: req.body.email})
     .then(user => {
 
       if (user) {
