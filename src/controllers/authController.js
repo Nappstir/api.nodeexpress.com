@@ -94,6 +94,7 @@ export function forgotPassword(req, res) {
             })
             .catch(err => {
               res.status(404).json({error: 'User id not found.'});
+              throw(err);
             })
         })
       } else {
@@ -120,6 +121,10 @@ export function resetPassword(req, res) {
               success: true,
               message: `Password for ${user.first_name} has been reset.`
             });
+          })
+          .catch(err => {
+            res.status(404).json({error: 'User not found.'});
+            throw(err);
           })
       } else {
         res.status(404).json({error: 'Password reset token has expired.'});
