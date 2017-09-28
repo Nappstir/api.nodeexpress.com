@@ -26,6 +26,15 @@ export function createUser(req) {
 }
 
 export function findByIdAndUpdate(req) {
-  return db('users').select().where('id', req.id).update(req.body)
-    .then(user => db('users').select().where('id', user).first());
+  return db('users').select().where('id', req.id).first().modify(function(queryBuilder){
+    if (req.body.password) {
+      let salt = bcrypt.genSaltSync(saltRounds);
+      req.body.password = bcrypt.hashSync(req.body.password, salt);
+
+      queryBuilder.update(req.body);
+    } else {
+      queryBuilder.update(req.body);
+    }
+  })
+    .then(() => db('users').select().where('id', req.id).first());
 }

@@ -12,4 +12,7 @@ router.route('/register')
 router.route('/forgotPassword')
   .post(authController.forgotPassword);
 
+router.route('/resetPassword')
+  .post(authController.resetPassword);
+
 export default router;

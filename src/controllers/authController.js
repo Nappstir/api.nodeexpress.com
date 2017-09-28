@@ -12,7 +12,7 @@ const sendmail = sendMail({
     warn: console.warn,
     error: console.error
   },
-  silent: false,
+  silent: false
 });
 
 function generateToken(res, user) {
@@ -62,22 +62,34 @@ export function register(req, res) {
 export function forgotPassword(req, res) {
   User.findOne({email: req.body.email})
     .then(user => {
-
       if (user) {
         crypto.randomBytes(20, function(err, buffer) {
           let token = buffer.toString('hex');
 
-          User.findByIdAndUpdate({id: user.id, body: { reset_password_token: token, reset_password_expires: Date.now() + 86400000 }})
+          User.findByIdAndUpdate({
+            id: user.id,
+            body: {
+              reset_password_token: token,
+              reset_password_expires: Date.now() + 86400000
+            }
+          })
             .then(user => {
-
               sendmail({
                 from: 'noreply@yourdomain.com',
                 to: user.email,
                 subject: 'App password reset.',
-                html: 'Heyo',
+                html: 'You are receiving this because you (or someone else) has requested the reset of the password for your account<br><br>' +
+                'Please click on the following link, or paste this into your browser to complete reset your password:<br><br>' +
+                'http://' + req.headers.host + '/resetPassword?token=' + user.reset_password_token + '<br><br>' +
+                'If you did not request this, please ignore this emai and your password will remain unchanged.',
               }, function(err, reply) {
                 console.log(err && err.stack);
               });
+
+              res.status(200).json({
+                success: true,
+                message: 'A password reset link has been sent to your email.'
+              })
 
             })
             .catch(err => {
@@ -89,4 +101,32 @@ export function forgotPassword(req, res) {
       }
     })
 
+}
+
+export function resetPassword(req, res) {
+  User.findOne({reset_password_token: req.body.reset_password_token})
+    .then(user => {
+      if (user && user.reset_password_expires > Date.now()) {
+        User.findByIdAndUpdate({
+          id: user.id,
+          body: {
+            reset_password_token: undefined,
+            reset_password_expires: undefined,
+            password: req.body.password
+          }
+        })
+          .then(user => {
+            res.status(200).json({
+              success: true,
+              message: `Password for ${user.first_name} has been reset.`
+            });
+          })
+      } else {
+        res.status(404).json({error: 'Password reset token has expired.'});
+      }
+    })
+    .catch(err => {
+      res.status(404).json({error: 'User not found.'});
+      throw(err);
+    })
 }
