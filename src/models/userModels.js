@@ -1,5 +1,5 @@
 import db from '../db';
-import bcrypt from 'bcrypt';
+import hashPassword from '../helpers/hashPassword';
 
 const saltRounds = 10;
 
@@ -13,14 +13,11 @@ export function findOne(req) {
 }
 
 export function createUser(req) {
-  let salt = bcrypt.genSaltSync(saltRounds);
-  let hashedPassword = bcrypt.hashSync(req.body.password, salt);
-
   return db('users').insert({
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     email: req.body.email,
-    password: hashedPassword
+    password: hashPassword(req.body.password)
   })
     .then((id) => db('users').select().where('id', id).first());
 }
@@ -28,8 +25,7 @@ export function createUser(req) {
 export function findByIdAndUpdate(req) {
   return db('users').select().where('id', req.id).first().modify(function(queryBuilder){
     if (req.body.password) {
-      let salt = bcrypt.genSaltSync(saltRounds);
-      req.body.password = bcrypt.hashSync(req.body.password, salt);
+      req.body.password = hashPassword(req.body.password);
 
       queryBuilder.update(req.body);
     } else {
