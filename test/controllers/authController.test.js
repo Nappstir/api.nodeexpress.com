@@ -29,7 +29,7 @@ describe('Authentication Controller', () => {
         .post('/api/auth/login')
         .send(testUser.email_address = 'fake@news.com')
         .end((err, res) => {
-          expect(res).to.have.status(200);
+          expect(res).to.have.status(401);
           done();
         });
     });
