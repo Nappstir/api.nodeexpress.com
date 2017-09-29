@@ -22,7 +22,7 @@ function generateToken(res, user) {
     expiresIn: '1d'
   });
 
-  return res.json({
+  return res.status(200).json({
     success: true,
     message: 'Login successful!',
     token: token
@@ -41,8 +41,8 @@ export function login(req, res) {
         });
       }
     })
-    .catch(error => {
-      res.json(error);
+    .catch(err => {
+      res.json(err);
     });
 }
 
@@ -54,8 +54,8 @@ export function register(req, res) {
       }
       res.json(user);
     })
-    .catch(error => {
-      res.json(error);
+    .catch(err => {
+      res.json(err);
     });
 }
 

@@ -4,13 +4,15 @@
   "description": "Node Express API",
   "main": "app.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha \"test/**/*.test.js\"",
+    "knex:migrate:test": "NODE_ENV=test knex migrate:latest",
+    "knex:seed:test": "NODE_ENV=test knex seed:run",
+    "test": "NODE_ENV=test mocha --compilers js:babel-core/register \"test/**/*.test.js\"",
+    "knex:migrate": "knex migrate:latest",
+    "knex:seed": "knex seed:run",
+    "start": "nodemon --exec babel-node ./src/app.js",
     "clean-dist": "rimraf ./dist && mkdir dist",
     "transpile-express": "babel src -d dist",
-    "build": "npm-run-all clean-dist transpile-express",
-    "start": "nodemon --exec babel-node ./src/app.js",
-    "knex:migrate": "knex migrate:latest",
-    "knex:seed": "knex seed:run"
+    "build": "npm-run-all clean-dist transpile-express"
   },
   "repository": {
     "type": "git",
@@ -45,6 +47,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "eslint": "^4.5.0",

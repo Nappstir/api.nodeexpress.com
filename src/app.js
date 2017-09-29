@@ -23,7 +23,7 @@ app.use(timeout(30000));
 
 app.use('/api', apiRoutes);
 
-app.listen(process.env.port || port, () => {
+module.exports = app.listen(process.env.port || port, () => {
   console.log(`Now listening on ${port}`);
 });
 

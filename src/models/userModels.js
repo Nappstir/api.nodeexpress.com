@@ -1,8 +1,6 @@
 import db from '../db';
 import hashPassword from '../helpers/hashPassword';
 
-const saltRounds = 10;
-
 export function getUser(req) {
   const id = req.params.id;
   return db('users').select().where('id', id).first();
