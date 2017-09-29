@@ -27,7 +27,7 @@ describe('Authentication Controller', () => {
     it('responds with status 401', done => {
       chai.request(server)
         .post('/api/auth/login')
-        .send(testUser.password['testing'])
+        .send(testUser.password = 'testing')
         .end((err, res) => {
           expect(res).to.have.status(200);
           done();
