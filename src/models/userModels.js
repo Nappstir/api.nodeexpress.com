@@ -13,12 +13,7 @@ export function findOne(req) {
 }
 
 export function createUser(req) {
-  return db('users').insert({
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    email: req.body.email,
-    password: hashPassword(req.body.password)
-  })
+  return db('users').insert(Object.assign(req.body,{password: hashPassword(req.body.password)}))
     .then((id) => db('users').select().where('id', id).first());
 }
 
