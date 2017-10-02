@@ -7,7 +7,7 @@ chai.use(chaiHttp);
 describe('Authentication Controller', () => {
 
   describe('login success', () => {
-    it('responds with status 200', done => {
+    it('responds with status(200) & json props', done => {
       chai.request(server)
         .post('/api/auth/login')
         .send({
@@ -16,13 +16,15 @@ describe('Authentication Controller', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(200);
+          expect(res.body).to.have.property('token');
+          expect(res.body.success).to.equal(true);
           done();
         });
     });
   });
 
   describe('login failure', () => {
-    it('responds with status 401', done => {
+    it('responds with status(401) & json props', done => {
       chai.request(server)
         .post('/api/auth/login')
         .send({
@@ -31,6 +33,7 @@ describe('Authentication Controller', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(401);
+          expect(res.body.success).to.equal(false);
           done();
         });
     });
