@@ -6,16 +6,14 @@ chai.use(chaiHttp);
 
 describe('Authentication Controller', () => {
 
-  const testUser = {
-    email_address: 'test@test.com',
-    password: 'test'
-  };
-
   describe('login success', () => {
     it('responds with status 200', done => {
       chai.request(server)
         .post('/api/auth/login')
-        .send(testUser)
+        .send({
+          email: 'test@test.com',
+          password: 'test'
+        })
         .end((err, res) => {
           expect(res).to.have.status(200);
           done();
@@ -27,7 +25,10 @@ describe('Authentication Controller', () => {
     it('responds with status 401', done => {
       chai.request(server)
         .post('/api/auth/login')
-        .send(testUser.email_address = 'fake@news.com')
+        .send({
+          email: 'fake@news.com',
+          password: 'test'
+        })
         .end((err, res) => {
           expect(res).to.have.status(401);
           done();

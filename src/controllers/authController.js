@@ -21,7 +21,6 @@ function generateToken(res, user) {
   }, config.jwtSecret, {
     expiresIn: '1d'
   });
-
   return res.status(200).json({
     success: true,
     message: 'Login successful!',
