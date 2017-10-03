@@ -11,4 +11,4 @@ export function getUser(req, res) {
     .catch(error => {
       res.json(error);
     });
-};
+}

@@ -18,4 +18,4 @@ export default function(req, res, next) {
       message: 'No token provided'
     })
   }
-};
+}
