@@ -2,8 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import apiRoutes from './routes/index';
 import compression from 'compression';
+import morgan from 'morgan';
 import helmet from 'helmet';
-import timeout from 'connect-timeout';
 
 // configuration
 const app = express();
@@ -16,10 +16,11 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+// generate log files for all user requests
+app.use(morgan("common"));
+
 // secure apps by setting various HTTP headers
 app.use(helmet());
-
-app.use(timeout(30000));
 
 app.use('/api', apiRoutes);
 
