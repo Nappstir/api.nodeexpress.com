@@ -1,4 +1,4 @@
-import chai, { expect } from 'chai';
+import { expect } from 'chai';
 import * as User from '../../src/models/userModels';
 
 describe('User Model', () => {

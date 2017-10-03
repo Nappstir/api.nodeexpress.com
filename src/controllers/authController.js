@@ -41,7 +41,11 @@ export function login(req, res) {
       }
     })
     .catch(err => {
-      res.json(err);
+      res.status(401).json({
+        success: false,
+        message: 'User cannot be found.'
+      });
+      throw(err);
     });
 }
 
@@ -55,6 +59,7 @@ export function register(req, res) {
     })
     .catch(err => {
       res.json(err);
+      throw(err);
     });
 }
 
