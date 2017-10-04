@@ -13,7 +13,7 @@
     "start": "nodemon --exec babel-node ./src/app.js",
     "clean-dist": "rimraf ./dist && mkdir dist",
     "transpile-express": "babel src -d dist",
-    "build": "npm-run-all clean-dist transpile-express"
+    "build": "npm-run-all clean-dist transpile-express knex:migrate"
   },
   "repository": {
     "type": "git",
