@@ -7,7 +7,7 @@ import helmet from 'helmet';
 
 // configuration
 const app = express();
-const port = 4040;
+const port = process.env.PORT || 4040;
 
 // compress all routes
 app.use(compression());
